@@ -56,39 +56,41 @@ const COMMENT_USERS = [
 
 // Функция для генерации объекта карточки фото
 
-const getPhoto = (i) => {
+const createComments = () => {
+  let commentsArray = [];
+  for (let i = 0; i <= getRandomInt(0, 25); i++) {
+    commentsArray.push({
+      id: getRandomInt(1, 200),
+      avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
+      message:
+        getRandomInt(0, 1) == 1
+          ? COMMENT_USERS[getRandomInt(0, COMMENT_USERS.length - 1)]
+          : COMMENT_USERS[getRandomInt(0, COMMENT_USERS.length - 1)] +
+            COMMENT_USERS[getRandomInt(0, COMMENT_USERS.length - 1)],
+      name: NAME_USERS[getRandomInt(0, NAME_USERS.length - 1)],
+    });
+  }
+  return commentsArray;
+};
+
+const getParameter = (i) => {
   return {
     id: i,
     url: `photos/${i}.jpg`,
-    description: DESCRIPTION_PHOTOS[i - 1],
+    description: DESCRIPTION_PHOTOS[i],
     likes: getRandomInt(15, 200),
-    comments: () => {
-      let commentsArray = [];
-      for (let i = 0; i <= getRandomInt(1, 10); i++) {
-        commentsArray.push({
-          id: getRandomInt(1, 200),
-          avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-          message:
-            getRandomInt(1, 2) == 1
-              ? COMMENT_USERS[getRandomInt(0, COMMENT_USERS.length - 1)]
-              : COMMENT_USERS[getRandomInt(0, COMMENT_USERS.length - 1)] +
-                COMMENT_USERS[getRandomInt(0, COMMENT_USERS.length - 1)],
-          name: NAME_USERS[getRandomInt(0, names.length - 1)],
-        });
-      }
-      return commentsArray;
-    },
+    comments: createComments(),
   };
 };
 
 // Функция для генерации списка карточек фото
 
-const getPhotos = () => {
+const getParameters = () => {
   let cardsArray = [];
 
-  for (let i = 0; i < 25; i++) cardsArray.push(getPhoto(i));
+  for (let i = 1; i <= 25; i++) cardsArray.push(getParameter(i));
 
   return cardsArray;
 };
 
-export { getPhotos };
+export { getParameters };
