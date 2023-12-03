@@ -42,10 +42,12 @@ const getFullSize = function (pictureSetting, card) {
   });
   closeButton.addEventListener("click", function () {
     bigPicture.classList.add("hidden");
+    body.classList.remove("modal-open");
   });
   document.addEventListener("keydown", function (evt) {
     if (evt.keyCode == 27) {
       bigPicture.classList.add("hidden");
+      body.classList.remove("modal-open");
     }
   });
 };
