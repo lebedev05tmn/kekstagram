@@ -10,7 +10,6 @@ const socialCaption = bigPicture.querySelector(".social__caption");
 const socialCommentCount = bigPicture.querySelector(".social__comment-count");
 const commentsLoader = bigPicture.querySelector(".comments-loader");
 const closeButton = bigPicture.querySelector(".cancel");
-const body = document.querySelector("body");
 
 const getFullSize = function (pictureSetting, card) {
   card.addEventListener("click", function () {
@@ -38,16 +37,16 @@ const getFullSize = function (pictureSetting, card) {
     socialCommentCount.classList.add("hidden");
     commentsLoader.classList.add("hidden");
     socialCaption.textContent = pictureSetting.description;
-    body.classList.add("modal-open");
+    document.body.classList.add("modal-open");
   });
   closeButton.addEventListener("click", function () {
     bigPicture.classList.add("hidden");
-    body.classList.remove("modal-open");
+    document.body.classList.remove("modal-open");
   });
   document.addEventListener("keydown", function (evt) {
     if (evt.keyCode == 27) {
       bigPicture.classList.add("hidden");
-      body.classList.remove("modal-open");
+      document.body.classList.remove("modal-open");
     }
   });
 };
