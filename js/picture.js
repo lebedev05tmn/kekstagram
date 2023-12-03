@@ -1,17 +1,17 @@
-import { getFullSize } from "./full-size.js";
+import { getFullSize } from './full-size.js';
 
-let pictureTemplate = document.querySelector("#picture").content.children[0];
-let pictureBlock = document.querySelector(".pictures");
+const pictureTemplate = document.querySelector('#picture').content.children[0];
+const pictureBlock = document.querySelector('.pictures');
 
 const createCards = (cardSettingList) => {
   const pictureFragment = document.createDocumentFragment();
 
   cardSettingList.forEach((cardSetting) => {
-    let pictureCard = pictureTemplate.cloneNode(true);
+    const pictureCard = pictureTemplate.cloneNode(true);
 
-    let pictureImage = pictureCard.querySelector(".picture__img");
-    let pictureLikes = pictureCard.querySelector(".picture__likes");
-    let pictureComments = pictureCard.querySelector(".picture__comments");
+    const pictureImage = pictureCard.querySelector('.picture__img');
+    const pictureLikes = pictureCard.querySelector('.picture__likes');
+    const pictureComments = pictureCard.querySelector('.picture__comments');
 
     pictureImage.src = cardSetting.url;
     pictureLikes.textContent = cardSetting.likes;
