@@ -58,7 +58,7 @@ const COMMENT_USERS = [
 
 const createComments = () => {
   const commentsArray = [];
-  for (let i = 0; i <= getRandomInt(0, 25); i++) {
+  for (let i = 0; i <= getRandomInt(1, 25); i++) {
     commentsArray.push({
       id: getRandomInt(1, 200),
       avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
@@ -86,7 +86,9 @@ const getParameter = (i) => ({
 const getParameters = () => {
   const cardsArray = [];
 
-  for (let i = 1; i <= 25; i++) {cardsArray.push(getParameter(i));}
+  for (let i = 1; i <= 25; i++) {
+    cardsArray.push(getParameter(i));
+  }
 
   return cardsArray;
 };
