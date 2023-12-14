@@ -1,8 +1,9 @@
+const bigPicture = document.querySelector('.big-picture');
+const closeButton = bigPicture.querySelector('.cancel');
+const socialComments = bigPicture.querySelector('.social__comments');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
+
 const getFullSize = function (pictureSetting, card) {
-  const bigPicture = document.querySelector('.big-picture');
-  const closeButton = bigPicture.querySelector('.cancel');
-  const socialComments = bigPicture.querySelector('.social__comments');
-  const commentsLoader = bigPicture.querySelector('.comments-loader');
   card.addEventListener('click', () => {
     const bigPictureImage = bigPicture.querySelector('.big-picture__img img');
     const likesCount = bigPicture.querySelector('.likes-count');
