@@ -1,8 +1,16 @@
-import { getParameters } from './data.js';
+import { parameterList } from './data.js';
 import { createCards } from './picture.js';
 import { showForm } from './form.js';
+import { filter } from './filter.js';
+import { debounce } from './utils.js';
 
-const parameterList = getParameters();
+//Выполняем функцию для создания карточки после получения данных с сервера
 
-createCards(parameterList);
+setTimeout(() => {
+  createCards(parameterList);
+  debounce(filter(),500);
+}, 500);
+
+//Отображаем форму редактирования загруженного изображения
+
 showForm();

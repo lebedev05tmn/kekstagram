@@ -1,96 +1,57 @@
-import { getRandomInt, getRandomArrayElement } from './util.js';
+//Массив с параметрами
 
-// Список имен пользователей
+const parameterList = [];
 
-const NAME_USERS = [
-  'Иван',
-  'Хуан Себастьян',
-  'Мария',
-  'Кристоф',
-  'Виктор',
-  'Юлия',
-  'Люпита',
-  'Вашингтон',
-];
+//Функция для создания карточек из массива с параметрами
 
-// Список описаний фотографий
-
-const DESCRIPTION_PHOTOS = [
-  'Красивое фото 1',
-  'Красивое фото 2',
-  'Красивое фото 3',
-  'Красивое фото 4',
-  'Красивое фото 5',
-  'Некрасивое фото 6',
-  'Некрасивое фото 7',
-  'Некрасивое фото 8',
-  'Некрасивое фото 9',
-  'Некрасивое фото 10',
-  'Отличное фото 11',
-  'Отличное фото 12',
-  'Отличное фото 13',
-  'Отличное фото 14',
-  'Отличное фото 15',
-  'Супер фото 16',
-  'Супер фото 17',
-  'Супер фото 18',
-  'Супер фото 19',
-  'Супер фото 20',
-  'Мега фото 21',
-  'Мега фото 22',
-  'Мега фото 23',
-  'Мега фото 24',
-  'Мега фото 25',
-];
-
-// Список комментариев, оставленных пользователями
-
-const COMMENT_USERS = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-];
-
-// Функция для генерации объекта карточки фото
-
-const createComments = () => {
-  const commentsArray = [];
-  for (let i = 0; i <= getRandomInt(1, 25); i++) {
-    commentsArray.push({
-      id: getRandomInt(1, 200),
-      avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-      message:
-        getRandomInt(0, 1) === 1
-          ? getRandomArrayElement(COMMENT_USERS)
-          : getRandomArrayElement(COMMENT_USERS) +
-            getRandomArrayElement(COMMENT_USERS),
-      name: getRandomArrayElement(NAME_USERS),
-    });
-  }
-  return commentsArray;
+const createParameters = (parameters) => {
+  parameters.forEach((element) => {
+    parameterList.push(element);
+  });
 };
 
-const getParameter = (i) => ({
-  id: i,
-  url: `photos/${i}.jpg`,
-  description: DESCRIPTION_PHOTOS[i - 1],
-  likes: getRandomInt(15, 200),
-  comments: createComments(),
-});
+//��ункция для отображения ошибки
 
-// Функция для генерации списка карточек фото
+const createError = (error, type) => {
 
-const getParameters = () => {
-  const cardsArray = [];
+  //Получаем шаблон ошибки
 
-  for (let i = 1; i <= 25; i++) {
-    cardsArray.push(getParameter(i));
+  const errorMessage = document.querySelector('#error').content.children[0];
+  const errorButton = errorMessage.children[0].children[1];
+
+  if (!type) {
+    //Отображаем ошибку
+
+    errorMessage.children[0].textContent = error;
+    errorMessage.children[0].setAttribute('style','padding: 50px 30px');
   }
 
-  return cardsArray;
+  document.body.append(errorMessage);
+
+  errorButton.addEventListener('click', () => {
+    document.body.removeChild(errorMessage);
+  });
 };
 
-export { getParameters };
+//Запрос к серверу
+
+fetch('https://25.javascript.pages.academy/kekstagram/data')
+
+//Получаем promise с данными json
+
+  .then((response) => response.json())
+
+//Обрабатываем данные и создаем массив с параметрами
+
+  .then((data) => {
+    createParameters(data);
+  })
+
+//Обрабатываем и отображаем ошибку
+
+  .catch((error) => {
+    createError(error, 0);
+  });
+
+
+export { parameterList, createError };

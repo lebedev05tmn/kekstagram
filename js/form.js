@@ -1,9 +1,13 @@
+import {createError} from './data.js';
+
 const uploadFile = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const cancelButton = imgUploadOverlay.querySelector('.cancel');
-const inputList = imgUploadOverlay.querySelectorAll('input, textarea');
+const inputList = imgUploadOverlay.querySelectorAll('input:not(input[type=radio]), textarea');
+const radioList = imgUploadOverlay.querySelectorAll('input[type=radio]');
 const hashTagInput = imgUploadOverlay.querySelector('.text__hashtags');
 const submitButton = imgUploadOverlay.querySelector('.img-upload__submit');
+const formUpload = document.forms.upload;
 const scaleControlList = imgUploadOverlay.querySelector('.scale');
 const controlSmaller = scaleControlList.children[0];
 const controlValue = scaleControlList.children[1];
@@ -12,34 +16,15 @@ const effectList = imgUploadOverlay.querySelectorAll('.effects__radio');
 const formSlider = imgUploadOverlay.querySelector('.effect-level__slider');
 const pictureOverlay = imgUploadOverlay.querySelector('img');
 const hiddenValue = imgUploadOverlay.querySelector('.effect-level__value');
+const successMessage = document.querySelector('#success').content.children[0];
+const successButton = successMessage.children[0].children[1];
 
 const showForm = () => {
-  uploadFile.addEventListener('input', () => {
+  uploadFile.addEventListener('change', () => {
     imgUploadOverlay.classList.remove('hidden');
     document.body.classList.add('modal-open');
   });
 
-  cancelButton.addEventListener('click', () => {
-    imgUploadOverlay.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    uploadFile.value = '';
-
-    inputList.forEach((inputItem) => {
-      inputItem.value = '';
-    });
-  });
-
-  document.addEventListener('keydown', (evt) => {
-    if(evt.keyCode === 27) {
-      imgUploadOverlay.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-      uploadFile.value = '';
-
-      inputList.forEach((inputItem) => {
-        inputItem.value = '';
-      });
-    }
-  });
 
   inputList.forEach((item) => {
     item.addEventListener('focus', (evt) => {
@@ -85,6 +70,7 @@ const showForm = () => {
   effectList.forEach((effectItem) => {
     effectItem.addEventListener('click', () => {
       pictureOverlay.className = '';
+      pictureOverlay.style.filter = 'none';
       formSlider.classList.add('hidden');
       if (effectItem.value !== 'none') {
         pictureOverlay.className = '';
@@ -149,11 +135,11 @@ const showForm = () => {
     });
   });
   formSlider.noUiSlider.on('update', () => {
-    if (pictureOverlay.className==='') {
-      pictureOverlay.filter = 'none';
-    }
     const fixedValue = Number(formSlider.noUiSlider.get());
     hiddenValue.value = fixedValue;
+    if(pictureOverlay.classList.contains('effects__preview--none')) {
+      pictureOverlay.style.filter = 'sepia(0)';
+    }
     if(pictureOverlay.classList.contains('effects__preview--chrome')) {
       pictureOverlay.style.filter = `grayscale(${fixedValue})`;
     }
@@ -168,6 +154,77 @@ const showForm = () => {
     }
     if(pictureOverlay.classList.contains('effects__preview--heat')) {
       pictureOverlay.style.filter = `brightness(${fixedValue})`;
+    }
+  });
+  uploadFile.addEventListener('input', () => {
+    pictureOverlay.src = URL.createObjectURL(uploadFile.files[0]);
+  });
+  formUpload.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(formUpload);
+    fetch(' https://25.javascript.pages.academy/kekstagram', {
+      method: 'POST',
+      body: formData,
+    }).then(()=>{
+      inputList.forEach((inputItem) => {
+        inputItem.value = '';
+      });
+      uploadFile.value = '';
+      controlValue.value = '100%';
+      formSlider.noUiSlider.set(100);
+      pictureOverlay.className = '';
+      pictureOverlay.style.filter = 'none';
+      imgUploadOverlay.classList.add('hidden');
+      radioList.forEach((item) => {
+        item.removeAttribute('checked');
+      });
+      radioList[0].setAttribute('checked', 'checked');
+      formSlider.classList.add('hidden');
+      document.body.append(successMessage);
+      successButton.addEventListener('click', () => {
+        document.body.classList.remove('modal-open');
+        document.body.removeChild(successMessage);
+      });
+    }).catch((error) => {
+      createError(error, 1);
+    });
+  });
+  cancelButton.addEventListener('click', () => {
+    imgUploadOverlay.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    uploadFile.value = '';
+    controlValue.value = '100%';
+    formSlider.noUiSlider.set(100);
+    radioList.forEach((item) => {
+      item.removeAttribute('checked');
+    });
+    radioList[0].setAttribute('checked', 'checked');
+    formSlider.classList.add('hidden');
+    pictureOverlay.className = '';
+    pictureOverlay.style.filter = 'none';
+
+    inputList.forEach((inputItem) => {
+      inputItem.value = '';
+    });
+  });
+  document.addEventListener('keydown', (evt) => {
+    if(evt.keyCode === 27) {
+      imgUploadOverlay.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      uploadFile.value = '';
+      controlValue.value = '100%';
+      formSlider.noUiSlider.set(100);
+      radioList.forEach((item) => {
+        item.removeAttribute('checked');
+      });
+      radioList[0].setAttribute('checked', 'checked');
+      formSlider.classList.add('hidden');
+      pictureOverlay.className = '';
+      pictureOverlay.style.filter = 'none';
+
+      inputList.forEach((inputItem) => {
+        inputItem.value = '';
+      });
     }
   });
 };
