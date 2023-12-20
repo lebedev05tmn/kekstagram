@@ -194,9 +194,7 @@ const showForm = () => {
     imgUploadOverlay.classList.add('hidden');
     document.body.classList.remove('modal-open');
     uploadFile.value = '';
-    console.log(controlValue);
     controlValue.value = '100%';
-    console.log(controlValue);
     pictureOverlay.style.transform = `scale(${(Number(controlValue.value.slice(0, -1)) / 100)})`;
     formSlider.noUiSlider.set(100);
     radioList.forEach((item) => {
