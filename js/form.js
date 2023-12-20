@@ -53,7 +53,7 @@ const showForm = () => {
   controlBigger.addEventListener('click', () => {
     if (Number(controlValue.value.slice(0, -1)) < 100) {
       controlValue.value = `${Number(controlValue.value.slice(0, -1)) + 25}%`;
-      pictureOverlay.style.transform= `scale(${(Number(controlValue.value.slice(0, -1)) / 100)})`;
+      pictureOverlay.style.transform = `scale(${(Number(controlValue.value.slice(0, -1)) / 100)})`;
     }
   });
   noUiSlider.create(formSlider, {
@@ -171,6 +171,7 @@ const showForm = () => {
       });
       uploadFile.value = '';
       controlValue.value = '100%';
+      pictureOverlay.style.transform = `scale(${(Number(controlValue.value.slice(0, -1)) / 100)})`;
       formSlider.noUiSlider.set(100);
       pictureOverlay.className = '';
       pictureOverlay.style.filter = 'none';
@@ -193,7 +194,10 @@ const showForm = () => {
     imgUploadOverlay.classList.add('hidden');
     document.body.classList.remove('modal-open');
     uploadFile.value = '';
+    console.log(controlValue);
     controlValue.value = '100%';
+    console.log(controlValue);
+    pictureOverlay.style.transform = `scale(${(Number(controlValue.value.slice(0, -1)) / 100)})`;
     formSlider.noUiSlider.set(100);
     radioList.forEach((item) => {
       item.removeAttribute('checked');
@@ -213,6 +217,7 @@ const showForm = () => {
       document.body.classList.remove('modal-open');
       uploadFile.value = '';
       controlValue.value = '100%';
+      pictureOverlay.style.transform = `scale(${(Number(controlValue.value.slice(0, -1)) / 100)})`;
       formSlider.noUiSlider.set(100);
       radioList.forEach((item) => {
         item.removeAttribute('checked');
