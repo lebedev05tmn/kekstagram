@@ -9,7 +9,7 @@ import { debounce } from './utils.js';
 setTimeout(() => {
   createCards(parameterList);
   debounce(filter(),500);
-}, 500);
+}, 1000);
 
 //Отображаем форму редактирования загруженного изображения
 
