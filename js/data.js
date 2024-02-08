@@ -35,7 +35,7 @@ const createError = (error, type) => {
 
 //Запрос к серверу
 
-fetch('https://25.javascript.pages.academy/kekstagram/data')
+fetch('https://25.javascript.htmlacademy.pro/kekstagram/data')
 
 //Получаем promise с данными json
 
